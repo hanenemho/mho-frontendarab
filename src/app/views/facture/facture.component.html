@@ -1,0 +1,306 @@
+<p-toast [baseZIndex]="5000"></p-toast>
+
+<div class="card" [class.disabled]="!toggle">
+    
+     
+    <p-accordion [style]="{'height':'100%'}"> 
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <h6 Class="titles">Prise en charge facture :</h6>
+            </ng-template>
+            <ng-template pTemplate="right">
+                <button pButton pRipple label="Enregistrer" icon="pi pi-save"
+                class="p-button-success p-button-sm p-mr-2" (click)="saveFacture()"></button>
+                <button pButton pRipple label="Valider" icon="pi pi-check" [disabled]="this.facture.isSaved === false"   (click)="validateFacture()" class="p-button-info p-button-sm p-mr-2"></button>
+            </ng-template>
+        </p-toolbar>       
+        
+            <div class="card m-9">
+                <h6 Class="titles">Informations facture :</h6> 
+                
+                <div class="card-body ">
+                    <div class="row ">
+                    <div class="form-group col-lg-4 p-2">
+                        <span class="p-float-label">
+                            <input class="p-inputtext-lg" pTooltip="Saisir le Numéro du facture" tooltipPosition="top" tooltipEvent="focus" style="width: 100%;"
+                            required autofocus id="numFact" [(ngModel)]="facture.numFact" type="text" pInputText >  
+                            <label for="num_fact">N° Facture </label>
+                            <small class="p-error" *ngIf="submitted && !facture.numFact">Numéro du facture est obligatoire.</small>
+                        </span> 
+                    </div>   
+                    <div class="form-group col-lg-4 p-2">
+                        <span class="p-float-label">
+                            <p-dropdown [options]="staticList"  class="p-inputtext-sm" pTooltip="Choisir le type du facture" tooltipPosition="top" [(ngModel)]="selectedStaticList" optionLabel="code" inputId="tf" 
+                            (onChange)="onChangeTyp($event)" [autoDisplayFirst]="false" [style]="{'width':'100%', 'height':'40px'}"> </p-dropdown>  
+                        </span> 
+                    </div>   
+                    <div class="form-group col-lg-4 p-2">
+                        <span class="p-float-label">
+                            <p-calendar  inputId="calendar" pTooltip="Choisir la date du facture" tooltipPosition="top" [(ngModel)]="facture.datFactInit" dateFormat="dd/mm/yy" showIcon="true" [maxDate]="maxDate"
+                             [style]="{'width':'100%', 'height':'40px'}"> </p-calendar> 
+                            <label for="calendar">Date facture </label>
+                        </span> 
+                    </div>    
+                    <div class="form-group col-lg-4 p-2" style="display: flex !important; align-items: center!important;">
+                            <p-checkbox  inputId="checkexp" binary="true" [(ngModel)]="facture.isExported" > </p-checkbox> 
+                            <label for="checkexp" style="margin-bottom: 0rem;">&nbsp; &nbsp; A l'exportation</label>
+                    </div>              
+                    <div class="form-group col-lg-4 p-2">
+                        <span class="p-float-label">
+                            <input id="lastname1"   disabled  class="p-inputtext-lg" [(ngModel)]="facture.montantTOTALS" type="text" style="width: 100%;" pInputText>  
+                            <label for="lastname1">Montant total  </label>
+                        </span> 
+                    </div>                    
+                    </div>
+                </div>
+            </div>
+             <div class="card m-6" >
+                  <h6 Class="titles">Informations clients :</h6>
+                <div class="card-body ">
+                    <div class="form-row row">
+                        <div class="form-group p-inputgroup col-lg-4">
+                            <span class="p-float-label p-input-icon-right ">
+                                <i *ngIf="loadSpinner" id="spin" class="pi pi-spin pi-spinner"></i>
+                                <input required   id="numFact"  class="p-inputtext-lg" pTooltip="Saisir le matricule fiscale du client" style="width: 100%;"
+                                    tooltipPosition="top" tooltipEvent="focus" [(ngModel)]="client.matriculeFiscaleClient"  type="text" pInputText>   
+                                <label for="numFact">Matricule fiscale</label>
+                                <small class="p-error" *ngIf="submitted && !facture.numFact">Matricule fiscale est obligatoire.</small>
+                            </span> 
+                            <p-toggleButton (onChange)="getClient($event)" [(ngModel)]="checkedclient" onIcon="pi pi-check" offIcon="pi pi-times"[style]="{'height':'40px'}" ></p-toggleButton>
+                        </div>          
+                    </div>
+                    <hr>
+                                <div class="row">
+                                   <div class="form-group col-lg-4 p-2">
+                                    <span class="p-float-label">
+                                        <input id="nom" class="p-inputtext-lg" pTooltip="Saisir le nom du client" tooltipPosition="top"
+                                        [(ngModel)] ="client.nom" type="text" style="width: 100%;" pInputText required>  
+                                        <label for="nom">Nom client/Raison sociale </label>
+                                        <small class="p-error" *ngIf="submitted && !client.nom">Nom est obligatoire.</small>
+                                    </span>    
+                                    </div>
+                                    <div class="form-group col-lg-4 p-2">
+                                        <span class="p-float-label">
+                                            <input id="nom" class="p-inputtext-lg" pTooltip="Saisir l'adresse du client" tooltipPosition="top"
+                                            [(ngModel)] ="client.addresse" type="text" style="width: 100%;" pInputText required>  
+                                            <label for="nom">Adresse </label>
+                                            <small class="p-error" *ngIf="submitted && !client.addresse">Adresse est obligatoire.</small>
+                                        </span>    
+                                        </div>
+                                    <div class="form-group col-lg-4 p-2">
+                                    <span class="p-float-label">
+                                        <input id="email"  class="p-inputtext-lg"  [(ngModel)] ="client.email" email type="email"
+                                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"     pTooltip="Saisir l'email du client" tooltipPosition="top"   #ma="ngModel"  style="width: 100%;" pInputText required> 
+                                        <label for="email">Email </label>
+                                        <small class="p-error" *ngIf="ma.errors?.pattern">Le format de l'email est incorrecte.</small>
+                                     </span>                        
+                                    </div>
+                                    <div class="form-group col-lg-4 p-2">
+                                        <span class="p-float-label">
+                                            <input id="numTel"   class="p-inputtext-lg" [(ngModel)] ="client.numTel"  type="text" pTooltip="Saisir numero du client" tooltipPosition="top" style="width: 100%;" pInputText required>     
+                                            <label for="numTel">N°téléphone </label>
+                                            <small class="p-error" *ngIf="submitted && !client.numTel">Numéro du téléphone est obligatoire.</small>
+                                        </span> 
+                                    </div>                       
+                                    <!-- <div class="col">
+                                        
+                                            <span class="p-float-label">
+                                                <p-dropdown [style]="{'width':'100%','height':'40px'}" [options]="paramPaysList" [(ngModel)]="client.paramPays" 
+                                                optionLabel="libPays" inputId="lastname1" class="p-inputtext-sm" [autoDisplayFirst]="false"> </p-dropdown>                            
+                                                <label for="lastname1">{{'enregistrement.lbl-pays' | translate}} </label>
+                                            </span>                          
+                                                                              
+                                    </div> -->
+                        </div>
+                </div>
+               
+             </div>
+
+            <div class="card m-6">
+                <h6 Class="titles">Détails facture :</h6>
+
+                
+                <p-table #dt [value]="detailsFactureList" [rows]="5" [paginator]="true"
+                 responsiveLayout="scroll"
+                 [rowHover]="true" dataKey="id" styleClass="p-datatable-sm"
+                    currentPageReportTemplate="Affichage de {first} à {last} parmis {totalRecords} enregistrement(s)"
+                    [showCurrentPageReport]="true" >
+                  
+                    <ng-template pTemplate="header" >
+                        <tr>
+                            <th style="width: 4rem">Order</th>
+                            <th style="width: 10rem" >Réference Produit</th>
+                            <th>Produit </th> 
+                            <th >Groupe de Taxation </th> 
+                            <th >Quantité </th> 
+                            <th >Prix unitaires  </th> 
+                            <th style="width: 7rem">Action</th>
+                            <th style="width: 4rem">  <p-button  
+                                  Tooltip="Ajouter détails facture"  toolTipPosition="top" icon="pi pi-plus-circle" class="p-button-info p-mr-2"
+                                 (onClick)="addNewDetails()" ></p-button>
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-det>
+                        <tr>
+   
+                            <td>{{det.orderProduit}}</td>
+                            <td>{{det.refProduit}}</td>
+                            <td>{{det.libProduit}}</td>
+                            <td>{{det.groupeTaxationLib}}</td>
+                            <td>{{det.quantite}}</td>
+                            <td>{{det.prixUnit}}</td>
+
+                            <td>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-2 p-button-rounded p-button-success p-mr-2"
+                                    (click)="updateDetail(det)"></button>
+                                <button pButton pRipple icon="pi pi-trash" 
+                                    class="p-button-rounded p-button-danger p-mr-2" (click)="deleteDetail(det)"></button>
+                            </td>
+                            
+                        </tr>
+                    </ng-template>
+        
+                </p-table>
+            </div>
+           
+        <p-accordionTab header="Sub totaux Facture" [disabled]="this.subtotauxDisabled">
+            <div class="form-group col-sm p-fluid" >
+                <label for="lastname1">Montant total tax specifique :</label>
+                <input id="lastname1"   disabled  class="p-inputtext-sm" [(ngModel)]="facture.montantTaxSpec" type="text" pInputText> 
+            </div> 
+               
+                    <p-table  styleClass="p-datatable-sm" [value]="subTotauxFactureList"  >
+                        <ng-template pTemplate="header">
+                            <tr>       
+                                <th>Groupe de taxations</th>
+                                <th>Montant total hors tax</th>
+                                <th>Montant TTC</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-subTotaux>
+                            <tr>
+                                <td>{{subTotaux.codeGrp}}</td>
+                                <td>{{subTotaux.totalHt}}</td>
+                                <td>{{subTotaux.totalTax}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                        
+               
+             
+        </p-accordionTab>
+         
+    </p-accordion>
+</div>
+
+
+<p-dialog [(visible)]="detailsDialog"  [style]="{width: '760px'}" header="Ajout détails facture" [modal]="true"
+        styleClass="p-fluid"  >
+        <ng-template pTemplate="content">
+            <hr>
+            <div class="row">
+                <div class="form-group col-lg-6 p-2">
+                   <!--  <span class="p-float-label">
+                        <input type="text" class="p-inputtext-lg" pInputText id="gp" [(ngModel)]="detailsFacture.refProduit" style="width: 100%;" required autofocus />   
+                        <label for="gp">Code produit</label>
+                        <small class="p-error" *ngIf="submittedD && !detailsFacture.refProduit">Code produit est obligatoire.</small>
+                    </span>  -->   
+                <span class="p-float-label">      
+                    <p-autoComplete [ShowEmptyMessage]="true" [dropdown]="true" [(ngModel)]="paramProduit.codeProduit" [suggestions]="filteredParamProduit"
+                    (completeMethod)="filterProduit($event)" field="codeProduit" (onSelect)="getSelectedProduit($event)"></p-autoComplete> 
+                    <label for="gp">Code produit</label>
+                </span>       
+                </div>
+                <div class="form-group col-lg-6 p-2">
+                    <span class="p-float-label">
+                        <input type="text" class="p-inputtext-lg" pInputText id="lp" [(ngModel)]="paramProduit.libProduit" style="width: 100%;" required  /> 
+                        <label for="lp">Produit </label>
+                    </span>              
+                        <small class="p-error" *ngIf="submittedD && !paramProduit.libProduit">Le produit est obligatoire.</small>
+                </div>                
+            </div>
+            <div class="form-row row">
+                <div class="form-group col-lg-6 p-2">
+                    <span class="p-float-label">
+                        <p-dropdown [options]="groupetaxationItems" [(ngModel)]="paramProduit.groupeTaxation" [autoDisplayFirst]="false"
+                    aria-required="true" optionLabel="libGrp" id="gt" class="p-inputtext-sm" id="grpTax" #grpTax="ngModel" [style]="{'width':'100%'}"
+                      requied="true" [ngClass]="{'ng-dirty':(grpTax.invalid && submittedD)|| (grpTax.dirty && grpTax.invalid)}"></p-dropdown>   
+                        <label for="gt">Groupe de taxation </label>
+                        <small class="p-error" *ngIf="(grpTax.invalid && submittedD) || (grpTax.dirty && grpTax.invalid)">Le groupe de taxations est obligatoire.</small>
+                    </span>                   
+                </div>  
+              <div class="form-group col-lg-6 p-2">
+                <span class="p-float-label">
+                    <p-inputNumber id="pu" class="p-inputtext-lg" [(ngModel)]="paramProduit.prixUnitaire"  [useGrouping]="false"
+                    required  [min]="1"  style="width: 100%;"></p-inputNumber>
+                    <label for="pu">Prix unitaire </label>
+                </span>              
+                    <small class="p-error" *ngIf="submittedD && !paramProduit.prixUnitaire">Le prix unitaire est obligatoire.</small>   
+             </div>
+            
+            </div>
+            <div class="form-row row">
+               
+                <div class="form-group col-lg-6 p-2">
+                    <span class="p-float-label">
+                        <p-inputNumber  id="qp"  class="p-inputtext-lg" [(ngModel)]="detailsFacture.quantite"  [useGrouping]="false"
+                        required    [min]="1" style="width: 100%;"></p-inputNumber>
+                        <label for="qp">Quantité </label>
+                    </span>              
+                        <small class="p-error" *ngIf="submittedD && !detailsFacture.quantite">La quantité est obligatoire.</small>  
+                  </div>
+                                 
+                <div class="form-group col-lg-6 p-2">
+                    <span class="p-float-label">
+                        <p-inputNumber id="ts"  class="p-inputtext-lg" [min]="1"   [(ngModel)]="detailsFacture.taxSpec"
+                        [useGrouping]="false" required  style="width: 100%;" ></p-inputNumber>
+                        <label for="ts">Tax spécifique </label>
+                    </span>             
+                </div>             
+            </div>
+
+
+            <hr>
+                <div class="row" style="float: right;">
+                    <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger "
+                        (click)="hideDialog()"></button>&nbsp;
+                    <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success"
+                        (click)="saveDetails()"></button>
+                </div>
+                 
+        </ng-template>
+       
+    </p-dialog>
+
+    <p-dialog [(visible)]="FactureAvoirDialog"  [style]="{width: '460px'}" header="Numero de facture à annuler" [modal]="true"
+    styleClass="p-fluid"  >
+    <ng-template pTemplate="content">
+        <hr>
+   
+            <div class="form-group ">
+                <span class="p-float-label">
+                    <input type="text" class="p-inputtext-lg" pInputText id="lp" [(ngModel)]="numfactureAvoir" style="width: 100%;" required  autofocus/> 
+                    <label for="lp">Numéro Facture </label>
+                </span>              
+                    <small class="p-error" *ngIf="submittedD && !numfactureAvoir">Le numéro de facture est obligatoire.</small>
+            </div>                
+        
+        <hr>
+            <div class="row" style="float: right;">
+                <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger "
+                    (click)="hideDialogAvoir()"></button>&nbsp;
+                <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success"
+                    (click)="getFactureAvoir()"></button>
+            </div>
+             
+    </ng-template>
+   
+</p-dialog>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+    <!--spinner-->
+    <ngx-spinner bdColor="rgba(51,51,51,0.3)" type="ball-clip-rotate-pulse" color="#ec9a01" size="large">
+        <img style="width: 50px; height: 50px; margin-top: -180px;" src="/assets/img/AS.png" >
+    </ngx-spinner>
+    

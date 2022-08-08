@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: sonede-frontend-deployment
+  labels:
+    app: sonede-frontend-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonede-frontend-pod
+
+  template:
+    metadata:
+      name: sonede-frontend-pod
+      labels:
+        app: sonede-frontend-pod
+
+    spec:
+      containers:
+        - name: sonede-frontend-container
+          image: sonede-frontend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80 

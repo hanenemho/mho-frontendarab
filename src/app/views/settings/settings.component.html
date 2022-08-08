@@ -1,0 +1,177 @@
+<p-toast [baseZIndex]="5000"></p-toast>
+<div class="card" >
+    <p-accordion [style]="{'height':'100%'}">
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <h6 Class="titles">Paramétre de compte</h6>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+                <button pButton pRipple (click)="updateUser()" label="Enregistrer" icon="pi pi-save"
+                class="p-button-success p-button-sm p-mr-2" ></button>
+            </ng-template>
+        </p-toolbar>     
+        <p-tabView>
+            <p-tabPanel header="Contribuable" >
+                <div class="card ">
+                    <p-accordion [style]="{'height':'100%'}">
+                        <p-toolbar [style]="{'background-color':'rgb(67, 125, 161)','color':'white'}">
+                            <ng-template pTemplate="left">
+                                <h6 Class="titles">Paramétre de contibuable</h6>
+                            </ng-template>
+                        </p-toolbar>   
+                        <hr>
+                    <div class="card-body ">
+                        <div class="form-row row">
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="mf" [(ngModel)]="pointVente.contribuable.matriculeFiscale" type="text" class="p-inputtext-lg" style="width: 100%;"
+                                     pInputText >
+                                    <label for="mf">Matricule Fiscale </label>
+                                </span>  
+                                    <small class="p-error" *ngIf="submitted && !pointVente.contribuable.matriculeFiscale">Matricule Fiscale est obligatoire.</small>
+                            </div>
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="rc" [(ngModel)]="pointVente.contribuable.raisonSocial" type="text" class="p-inputtext-lg" style="width: 100%;" pInputText>
+                                    <label for="rc">Raison Sociale</label>
+                                </span>       
+                                    <small class="p-error" *ngIf="submitted && !pointVente.contribuable.raisonSocial">Raison Sociale est obligatoire.</small>                        
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row row">
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="regc" [(ngModel)]="pointVente.contribuable.numRegistre" type="text" class="p-inputtext-lg" style="width: 100%;" pInputText>
+                                    <label for="regc">R. commerce</label>
+                                </span>   
+                                    <small class="p-error" *ngIf="submitted && !pointVente.contribuable.numRegistre">Registre de commerce est obligatoire.</small>  
+                            </div>
+                        
+                        
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <p-inputMask id="tel" mask="99-999-999" [(ngModel)]="pointVente.contribuable.numtel" class="p-inputtext-lg" [style]="{'width':'100%'}"></p-inputMask>
+                                    <label for="tel">N°telephone</label>
+                                </span>   
+                                    <small class="p-error" *ngIf="submitted && !pointVente.contribuable.numtel">N°Téléphone est obligatoire.</small>                        
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row row">
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="emailc" name="email" #email="ngModel" [(ngModel)]="pointVente.contribuable.email" class="p-inputtext-lg" style="width: 100%;" pInputText type="email" [email]="true">
+                                    <label for="emailc">Email</label>
+                                </span>   
+                                    <small class="p-error" *ngIf="submitted && !pointVente.contribuable.email">L'email est
+                                        obligatoire.</small>
+                                        <small class="p-error" *ngIf="submitted && email.errors?.email">email 
+                                            invalide.</small>                       
+                            </div>
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="adresse" [(ngModel)]="pointVente.contribuable.adresse" type="text" class="p-inputtext-lg" style="width: 100%;" pInputText>
+                                    <label for="adresse">Adresse</label>
+                                </span>                          
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row row">                
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <p-dropdown [style]="{'width':'100%'}" [options]="paramPaysList" [(ngModel)]="pointVente.contribuable.paramPays" 
+                                    optionLabel="libPays" inputId="pays" class="p-inputtext-sm" [autoDisplayFirst]="true"> </p-dropdown>                            
+                                    <label for="pays">Pays </label>
+                                </span>                          
+                            </div>
+                        </div>
+                    </div>
+                </p-accordion>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Agent">
+
+                <div class="card ">
+                    <p-accordion [style]="{'height':'100%'}">
+                    <p-toolbar  [style]="{'background-color':'rgb(67, 125, 161)','color':'white'}">
+                    <ng-template pTemplate="left">
+                        <h6 Class="titles">Paramètre de point de vente</h6>
+                    </ng-template>
+                    </p-toolbar>
+                    <hr>
+                    <div class="card-body ">
+                        <div class="form-row row">
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="ca" [(ngModel)]="pointVente.codeAgent" type="text" class="p-inputtext-lg" style="width: 100%;"
+                                     pInputText>
+                                    <label for="ca">Code agent </label>
+                                </span>   
+                                    <small class="p-error" *ngIf="submitted && !pointVente.codeAgent">Code agent est obligatoire.</small>
+                            </div>
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="na" [(ngModel)]="pointVente.nomAgent" type="text" class="p-inputtext-lg" style="width: 100%;" pInputText>
+                                    <label for="na">Nom agent</label>
+                                </span>   
+                                    <small class="p-error" *ngIf="submitted && !pointVente.nomAgent">Nom agent est obligatoire.</small>                        
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row row">
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="libpv" [(ngModel)]="pointVente.libellePoint" type="text" class="p-inputtext-lg" style="width: 100%;" pInputText>
+                                    <label for="libpv">Libelle point de vente</label>
+                                </span>   
+                                    <small class="p-error" *ngIf="submitted && !pointVente.libellePoint">Libelle est obligatoire.</small>  
+                            </div>
+                        
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input id="emailpv" type="text" [(ngModel)]="pointVente.email" class="p-inputtext-lg" style="width: 100%;" pInputText>
+                                    <label for="emailpv">Email</label>
+                                </span>   
+                                    <small class="p-error" *ngIf="submitted && !pointVente.email">Email est obligatoire.</small>                        
+                            </div>
+                        </div>
+                        <br>
+                        <div  class="form-group col-lg-6 p-2"> 
+                            <u [routerLink]="['/user/forgetsPwd']"  style=" color: #155fa8;"  > Changer le mot de passe</u>
+                          </div>
+                        
+                        <!-- <div class="form-row row">
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input type="password" pPassword id="password" [(ngModel)]="pointVente.motPasse" class="p-inputtext-lg" [style]="{'width':'100%'}" required />
+                                    <label for="password">Mot de passe*</label>
+                                </span>        
+                            </div>
+                            <div class="form-group col-lg-6 p-2">
+                                <span class="p-float-label">
+                                    <input type="password" pInputText id="motPasseConfirm" [(ngModel)]="this.password" class="p-inputtext-lg" [style]="{'width':'100%'}" required />
+                                    <label for="motPasseConfirm">Confirmation mot de passe*</label>
+                                </span>   
+                                    <small class="p-error" *ngIf="this.password!=pointVente.motPasse">les mots de passe ne sont pas conforme.</small>
+                            </div>
+                        </div>
+                        <br> -->
+                        
+                    </div>
+                    </p-accordion>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+       
+    
+
+</p-accordion>
+</div>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<!--spinner-->
+<ngx-spinner bdColor="rgba(51,51,51,0.3)" type="ball-clip-rotate-pulse" color="#ec9a01" size="large">
+    <img style="width: 50px; height: 50px; margin-top: -180px;" src="/assets/img/AS.png" >
+</ngx-spinner>

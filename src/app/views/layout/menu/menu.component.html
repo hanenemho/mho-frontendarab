@@ -1,0 +1,113 @@
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+    <!-- Brand Logo -->
+    <div class="logo">
+    <a [routerLink]="['/dashboard']"  class="simple-text">
+        <div class="logo-img">
+        <img src="assets/img/AS.png" alt="AdminLTE Logo" 
+              >
+        </div>
+             ArabSoft       
+    </a>
+    </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+
+        <!-- SidebarSearch Form -->
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <span class="brand-text font-weight-bold" style="color: whitesmoke;text-shadow: 2; font-size: x-large; ">Facture électronique</span>
+            <ul class="nav nav-pills nav-sidebar flex-column" style="margin-top: 20px;" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+               
+                <!-- <li class="nav-header">Menu</li> -->
+                <li class="nav-item" >
+                    <a class="nav-link" style="color: white;" (click)="prises()">
+                        <i class="fa fa-product-hunt" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Prise en charges facture
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" style="color: white;" [routerLinkActive]="['active']"  [routerLink]="['historiqueFacture']">
+                         <i class="fa fa-history" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Historique mes factures
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link" style="color: white;"    [routerLinkActive]="['active']" [routerLink]="['client']" >
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Clients
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="matF=='0'" >
+                    <a class="nav-link" style="color: white;"    [routerLinkActive]="['active']" [routerLink]="['contribuable']" >
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Contribuable
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item" *ngIf="matF=='0'" >
+                    <a class="nav-link" style="color: white;"    [routerLinkActive]="['active']" [routerLink]="['grpTaxation']" >
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Groupe de taxations
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item"  *ngIf="matF=='0'"> 
+                    <a class="nav-link" style="color: white;" [routerLinkActive]="['active']" [routerLink]="['parampays']">
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Paramètres des pays
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item"> 
+                    <a class="nav-link" style="color: white;" [routerLinkActive]="['active']" [routerLink]="['paramproduit']">
+                        <i class="fa fa-cubes" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Paramètres des produits
+                        </p>
+                    </a>
+                </li> 
+                <li class="nav-item"  *ngIf="matF=='0'"> 
+                    <a class="nav-link" style="color: white;" [routerLinkActive]="['active']" [routerLink]="['statistics']">
+                        <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Statistiques
+                        </p>
+                    </a>
+                </li> 
+                <!-- <div style="position : fixed; bottom : 0; ">
+                    <li class="nav-item">
+                        <a class="nav-link"  style="color: white;" [routerLinkActive]="['active']" [routerLink]="['settings']">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                            <p>
+                              &nbsp; Paramétre de compte &nbsp; &nbsp; &nbsp; 
+                            </p>
+                          </a>
+                      </li>
+                <li class="nav-item">
+                    <a class="nav-link"  style="color: white;" (click)="deconnecter()">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        <p>
+                          &nbsp;Se déconnecter
+                        </p>
+                      </a>
+                  </li>
+                </div> -->
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

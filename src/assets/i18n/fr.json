@@ -1,0 +1,47 @@
+{
+    "enregistrement":{
+        "lbl-inscription":"Inscription :",
+        "btn-annuler":"Annuler",
+        "tt-btn-annuler":"Retourner à la login",
+        "btn-enregistrer":"Enregistrer",
+        "tt-btn-enregistrer":"Sauvegarder et continuer",
+        "lbl-mf":"Matricule Fiscale",
+        "lbl-rc":"Raison Sociale",
+        "lbl-regcom":"Registe de commerce",
+        "lbl-tel":"N° telephone",
+        "lbl-email":"Email",
+        "lbl-adresse":"Adresse",
+        "lbl-pays":"Pays",
+        "tab-listepv":"Liste des points de vente",
+        "th-libpv":"Libelé",
+        "th-email":"email",
+        "th-ca":"Code agent",
+        "th-na":"Nom agent",
+        "tt-btn-ajoutpv":"Ajouter Point de vente",
+        "lbl-password":"Mot de passe",
+        "lbl-confpassword":"Confirmation mot de passe",
+        "dialog-header-mail":"Vérifier votre e-mail",
+        "dialog-p-mail":"Un courriel va vous étre envoyer a votre addresse mail contenant le code de confirmation!",
+        "dialog-confirm-annuler":"Etes-vous sûr de quitter la registration ?"
+    },
+    "login":{
+        "lbl-titre":"Facturation électronique",
+        "lbl-card":"Authentification",
+        "ph-mf":"Matricule fiscale",
+        "ph-listepv":"Liste point de vente",
+        "ph-password":"Mot de passe",
+        "btn-connect":"Se connecter",
+        "link-signin":"Cliquez ici pour creér un compte !",
+        "link-mdpoublie":"Mot de passe  oublié ?"
+    },
+    "validation":{
+        "titre":"Validation de votre compte",
+        "lbl-code":"Code de validation",
+        "btn-valider":" Valider"
+    },
+    "error":{
+        "msg-mdp-rgx":"La Longueur du mot de passe doit etre au moins de 8 caractéres dont au moins, une lettre majuscule, un nombre et un caractére spéciale(!@#%^&*_=+-)"
+    },
+    
+    "th-action":"Action"
+}

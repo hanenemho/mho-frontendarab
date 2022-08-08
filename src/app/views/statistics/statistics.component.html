@@ -1,0 +1,46 @@
+<p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+        <h5 class="p-m-0">Statistiques des factures</h5>
+    </ng-template>
+</p-toolbar>
+
+
+<h6>&nbsp;Nombres des factures total = {{TotalFacts}}</h6>
+<div class="row">
+    <div class="col" style="display: flex;">
+        <div class="card m-9">
+            <p-chart type="doughnut" [data]="factByState" width="550px" [responsive]="true"></p-chart>
+        </div>
+    </div>
+    <div class="col" style="display: flex;">
+        <div class="card m-9">
+            <p-chart type="doughnut" [data]="factByType" width="550px" responsive="true"></p-chart>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col" style="display: flex;">
+        <div class="card m-9">
+            <p-chart type="line" [data]="factByMonth" width="550px" responsive="true"></p-chart>
+        </div>
+    </div>
+    <div class="col" style="display: flex;">
+        <div class="card m-9">
+            <p-chart type="bar" [data]="factByMonth" width="550px" responsive="true"></p-chart>
+        </div>
+    </div>
+</div>
+
+
+<p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+        <h5 class="p-m-0">Statistiques des produits</h5>
+    </ng-template>
+</p-toolbar>
+<h6>&nbsp;Nombres des produits total = {{TotalProduits}}</h6>
+
+<div class="col" style="display: flex;">
+    <div class="card m-9">
+        <p-chart type="polarArea" [data]="prodByGt" width="500px" responsive="true"></p-chart>
+    </div>
+</div>

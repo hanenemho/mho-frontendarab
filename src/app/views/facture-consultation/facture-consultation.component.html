@@ -1,0 +1,189 @@
+<p-toast [baseZIndex]="5000"></p-toast>
+
+<div class="card m-9">
+<div class="card-body">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+           <h5 class="p-m-0">Recherche facture</h5>   
+        </ng-template>
+    </p-toolbar>
+
+
+    <div class="row ">
+        <div class="form-group col-lg-4 p-2">
+            <span class="p-float-label">
+                <input  class="p-inputtext-lg"  style="width: 100%;" [(ngModel)]="numeroFacture"
+                required  id="nf"  type="text" pInputText >  
+                <label for="nf">N° Facture </label>
+            </span> 
+        </div>   
+        <div class="form-group col-lg-4 p-2">
+            <span class="p-float-label">
+                <p-dropdown id="tf" [options]="staticList"  class="p-inputtext-sm"  [(ngModel)]="selectedStaticList" optionLabel="code" inputId="tf" 
+                 [autoDisplayFirst]="false" [style]="{'width':'100%', 'height':'40px'}"> </p-dropdown>  
+                 <label for="tf">Type facture </label>
+            </span> 
+        </div>   
+        <div class="form-group col-lg-4 p-2">
+            <span class="p-float-label">
+                <p-dropdown id="fs" [options]="stateList"  class="p-inputtext-sm"  [(ngModel)]="selectedStateList" optionLabel="etat" inputId="state" 
+                 [autoDisplayFirst]="false" [style]="{'width':'100%', 'height':'40px'}"> </p-dropdown>  
+                 <label for="fs">Etat facture</label>
+            </span> 
+        </div>   
+        <div class="form-group col-lg-4 p-2">
+            <span class="p-float-label">
+                <p-calendar  inputId="calendar" [(ngModel)]="dateRange" selectionMode="range"  dateFormat="dd/mm/yy" showIcon="true" [maxDate]="maxDate"
+                 [style]="{'width':'100%', 'height':'40px'}"> </p-calendar> 
+                <label for="calendar">Intervalle de date facture </label>
+            </span> 
+        </div>                               
+        </div>
+    
+
+    <div style="float: right;">
+    <button pButton pRipple label="Intialiser" icon="pi pi-times"
+        class="p-button-secondary p-button-sm p-mr-2" (click)="clearSearch()"></button>
+    <button pButton pRipple label="Rechercher" icon="pi pi-search"
+        class="p-button-success p-button-sm p-mr-2" (click)="factureSearch()"></button>
+    </div>
+</div>    
+</div>
+
+<div class="card m-9">
+   
+            
+
+<div class="card-body">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+           <h5 class="p-m-0">Historique de mes factures</h5>   
+        </ng-template>
+        <ng-template pTemplate="right">
+            <input pInputText type="text" style="float: right;" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Filtrer..."/>
+         &nbsp;
+        </ng-template>   
+    </p-toolbar>
+    
+    <p-table #dt [value]="factureList" [rows]="5" [paginator]="true" [rowHover]="true" dataKey="id"
+    styleClass="p-datatable-sm" currentPageReportTemplate="Affichage de {first} à {last} parmis {totalRecords} enregistrement(s)"
+    [showCurrentPageReport]="true" [globalFilterFields]="['numFact','typFact']">
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            
+
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="numFact">N° Facture  <p-sortIcon field="numFact"></p-sortIcon>
+            </th> 
+            <th pSortableColumn="typFact">Type Facture <p-sortIcon field="typFact"></p-sortIcon>
+            </th> 
+            <th pSortableColumn="dateFact">Date Facture <p-sortIcon field="dateFact"></p-sortIcon>
+            </th>    
+            <th pSortableColumn="state">Etat<p-sortIcon field="state"></p-sortIcon>
+            </th>         
+            <th>Action</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-fct>
+        <tr>
+            <td>{{fct.numFact}}</td>
+            <td>{{fct.typFact}}</td>
+            <td>{{fct.datFactInit | date :'short'}}</td>
+            <td><span  [class]="{'enregister':fct.state === 'ENREGISTRER', 'valider':fct.state === 'VALIDER'}" > &nbsp;&nbsp;{{fct.state}}&nbsp;&nbsp;</span>
+            </td>
+            <td>
+                <button pButton pRipple icon="pi pi-eye" class="p-2 p-button-rounded p-button-info p-mr-2"
+                        (click)="consultFct(fct)" ></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-2 p-button-rounded p-button-danger p-mr-2"
+                        (click)="deleteFacture(fct)" ></button>
+                <button *ngIf="fct.state ==='ENREGISTRER'" pButton pRipple icon="pi pi-pencil" class="p-2 p-button-rounded p-button-success p-mr-2"
+                        (click)="consultFct(fct)" ></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-fct>
+        <tr>
+            <td colspan="5" style="text-align: center;">
+            
+                 <i class="pi pi-folder-open" style="font-size: 3rem"></i>&nbsp;
+                 <br>
+                 Aucun enregistrement trouvé!
+                
+            </td>
+        </tr>
+    </ng-template>
+    </p-table> 
+    </div>
+   
+</div>
+    
+    
+    <p-dialog [(visible)]="fctDialog" [style]="{width: '650px'}" header="Détails de facture" [modal]="true"
+            styleClass="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="row">    
+                    <div class="col-md-4 p-field">
+                    <label for="name">N°Facture :</label>
+                    <input type="text" disabled pInputText id="name" [(ngModel)]="facture.numFact" required autofocus />
+                </div>
+               
+                <div class="col-md-4 p-field">
+                    <label for="name">Type Facture:</label>
+                    <input type="text" disabled pInputText id="name" [(ngModel)]="facture.typFact" required autofocus />
+                </div>
+                
+                <div class="col-md-4 p-field">
+                    <label for="name">Date Facture :</label>
+                    <input type="text" disabled pInputText id="name" [(ngModel)]="facture.dateFact" required autofocus />
+                </div>
+               </div>
+ <p-accordion [style]="{'height':'100%','width':'100%','margin-top':'20px'}"> 
+    <p-accordionTab header="Détails Facture" [selected]="true" >
+    <p-table #dt [value]="facture.detailsFacture" [rows]="5" [paginator]="true" [rowHover]="true" dataKey="id"
+  
+    [showCurrentPageReport]="true" >
+   
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Order</th> 
+            <th>Produit </th> 
+            <th >Groupe de taxation </th> 
+            <th >Quantite </th> 
+            <th >Prix unitaires   </th> 
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-det>
+        <tr>
+            <td>{{det.orderProduit}}</td>
+            <td>{{det.libProduit}}</td>
+            <td>{{det.groupeTaxation.libGrp}}</td>
+            <td>{{det.quantite}}</td>
+            <td>{{det.prixUnit}}</td>
+        </tr>
+    </ng-template>
+    
+    </p-table> 
+     </p-accordionTab>
+    </p-accordion>          
+               
+            </ng-template>
+        
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"
+                   ></button>
+                   <button *ngIf="facture.state ==='ENREGISTRER'" pButton pRipple label="valider" icon="pi pi-check" class="p-button-text" (click)="validerFacture(facture)"
+                   ></button>
+               
+            </ng-template>
+        </p-dialog>
+    
+    
+        <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+    <!--spinner-->
+<ngx-spinner bdColor="rgba(51,51,51,0.3)" type="ball-clip-rotate-pulse" color="#ec9a01" size="large">
+    <img style="width: 50px; height: 50px; margin-top: -180px;" src="/assets/img/AS.png" >
+</ngx-spinner>
+

@@ -1,0 +1,46 @@
+<div class="wrapped-div">
+  <div class="tab-header">
+    <h2 routerLink='/user/login' routerLinkActive='active'>{{'login.lbl-titre' | translate}}</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+  
+<img style="width: 100%; max-width: 180px;; height: auto ;margin-top: 19px;background-color: #f8f9fa; border-radius: 100px;" src="/assets/img/AS.png" class="mx-auto d-block"> 
+<div class="login-logo">
+  <a href="" class="cls-text-color"><b class="cls-text-color">{{'login.lbl-card' | translate}} </b></a>
+</div>   
+<form [formGroup]="loginForm" class="mb-4" autocomplete="off">
+  <div class="form-group ">   
+    <input (blur)="verifNif()"type="text" class="form-control" autofocus placeholder="{{'login.ph-mf' | translate}}" formControlName="adminMail" >
+  </div>
+  <div class="form-group ">
+    <!--p-dropdown [options]="pointVenteList"  [(ngModel)]="selectedPointVente" optionLabel="libellePoint" id="lastname1"  (click)="verifNif()"
+ placeholder="select" [style]="{width: '160px'}"> </p-dropdown-->
+   <select formControlName="selectedPointVente" class="form-control"    >
+     <option value=""  disabled hidden>{{'login.ph-listepv' | translate}}</option>
+    <option *ngFor="let pointv of pointVenteList" [(ngValue)]="pointv.codeAgent">{{pointv.libellePoint}}</option>
+   </select>
+   </div>
+  <div class="form-group ">
+    <input type="password" class="form-control" placeholder="{{'login.ph-password' | translate}}" formControlName="adminPassword">
+  </div>
+  <div   style="text-align: center; margin-bottom: 20px;"> 
+        <button (click)="authentificationClient()"  class="btn"   [disabled]="!loginForm.valid" >{{'login.btn-connect' | translate}}</button>
+  
+      
+      </div>
+      <div  style=" text-align: center;"> 
+        <a [routerLink]="['/user/register']"  style=" color: #f8f9fa;" href="#" >{{'login.link-signin' | translate}}</a>
+      </div>
+      <div  style=" text-align: center;"> 
+        <u [routerLink]="['/user/forgetsPwd']"  style=" color: #f8f9fa;"  >{{'login.link-mdpoublie' | translate}}</u>
+      </div>
+      
+</form>
+</div>
+</div>
+
+
+
+</div>

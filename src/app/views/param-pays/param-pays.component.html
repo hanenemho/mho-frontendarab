@@ -1,0 +1,135 @@
+<div class="card m-9">
+  
+
+<div class="card-body">
+<p-toolbar styleClass="p-mb-4">
+    <ng-template pTemplate="left">
+       <h5 class="p-m-0">Liste des paramétres des pays</h5>   
+    </ng-template> 
+    <ng-template pTemplate="right">
+       <button pButton pRipple label="Ajouter" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
+
+    </ng-template>   
+</p-toolbar>
+
+<p-table #dt [value]="paramPaysList" [rows]="5" [paginator]="true" [rowHover]="true" dataKey="id"
+currentPageReportTemplate="Affichage de {first} à {last} parmis {totalRecords} enregistrement(s)" styleClass="p-datatable-sm"
+[showCurrentPageReport]="true" [globalFilterFields]="['nom_hotel','cod_hotel']">
+
+<ng-template pTemplate="header">
+    <tr>
+        <th >Code Pays 
+        </th> 
+        <th >Libellé Pays 
+        </th> 
+        <th >Langue
+        </th> 
+        <th >Code devise 
+        </th>         
+        <th>Action</th>
+    </tr>
+</ng-template>
+<ng-template pTemplate="body" let-param>
+    <tr>
+        <td>{{param.codePays}}</td>
+        <td>{{param.libPays}}</td>
+        <td>{{param.langue}}</td>
+        <td>{{param.codeDevise}}</td>
+        <td>
+            <button pButton pRipple icon="pi pi-pencil" class="p-2 p-button-rounded p-button-success p-mr-2"
+            (click)="updateParam(param)"  ></button>
+            <button pButton pRipple icon="pi pi-trash" 
+               (click)="deleteParam(param)" class="p-button-rounded p-button-danger p-mr-2" ></button>
+        </td>
+    </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage" let-param>
+    <tr>
+        <td colspan="5" style="text-align: center;">
+        
+             <i class="pi pi-folder-open" style="font-size: 3rem"></i>&nbsp;
+             <br>
+             Aucun enregistrement trouvé!
+            
+        </td>
+    </tr>
+</ng-template>
+</p-table> 
+
+
+</div>
+</div>
+
+<p-dialog [(visible)]="paramDialog" [style]="{width: '650px'}" header="Ajout paramétres de pays" [modal]="true"
+        styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <br>
+            <div class="row">    
+                <div class="form-group col-md-4">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="name" [(ngModel)]="paramPays.codePays" style="width: 100%;" required autofocus />
+                    <label for="name">Code pays </label>
+                    <small class="p-error" *ngIf="submitted && !paramPays.codePays">Le code de pays est obligatoire.</small>
+                    </span> 
+                </div>
+
+                <div class="form-group col-md-4">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="name" [(ngModel)]="paramPays.libPays" style="width: 100%;" required autofocus />
+                    <label for="name">Libellé pays  </label>
+                    <small class="p-error" *ngIf="submitted && !paramPays.libPays">Le libellé de pays est obligatoire.</small>
+                    </span> 
+                </div>
+            
+                <div class="form-group col-md-4">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="name" [(ngModel)]="paramPays.langue" style="width: 100%;" required autofocus />
+                    <label for="name">Langue </label>
+                    <small class="p-error" *ngIf="submitted && !paramPays.langue">La langue de pays est obligatoire.</small>
+                    </span> 
+                </div>
+            </div>
+            <br>
+            <div class="row">    
+                <div class="form-group col-md-4">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="name" [(ngModel)]="paramPays.codeDevise" style="width: 100%;" required autofocus />
+                    <label for="name">Code devise </label>
+                    <small class="p-error" *ngIf="submitted && !paramPays.codeDevise">Devise de pays est obligatoire.</small>
+                    </span> 
+                </div>
+                <div class="form-group col-md-8">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="name" [(ngModel)]="paramPays.formatMontant" style="width: 100%;" required autofocus />
+                    <label for="name">Format Montant </label>
+                    <small class="p-error" *ngIf="submitted && !paramPays.formatMontant">Format est obligatoire.</small>
+                    </span> 
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="name" [(ngModel)]="paramPays.procVerifMat" style="width: 100%;" required autofocus />
+                    <label for="name">Procédure Vérification NIF </label>
+                    </span> 
+            </div>
+            <br>
+            <div class="form-group">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="name" [(ngModel)]="paramPays.swPaiement" style="width: 100%;" required autofocus />
+                    <label for="name">Méthode de paiement </label>
+                    </span> 
+            </div> 
+           <hr class="solid">
+             <div class="row" style="float: right;">
+                <button pButton pRipple  icon="pi pi-times" class="p-button-rounded p-button-danger " (click)="hideDialog()"
+                ></button>&nbsp;
+             <button pButton pRipple  icon="pi pi-check" class="p-button-rounded p-button-success" (click)="saveParam()"></button>
+            </div>
+           
+        </ng-template>
+    
+    </p-dialog>
+
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
