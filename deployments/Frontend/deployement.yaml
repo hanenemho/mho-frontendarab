@@ -23,6 +23,6 @@ spec:
       containers:
         - name: sonede-frontend-container
           image: sonede-frontend:latest
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           ports:
             - containerPort: 80 
