@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlServer: 'http://localhost:8059/',
+  urlServer: 'http://node-service:8059/',
   defaultLang: 'fr'
 
 };
