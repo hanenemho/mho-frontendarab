@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: sonede-frontend-container
-          image: sonede-frontend:IMAGE_TAG
+          image: hanenemho12/sonede-frontend:IMAGE_TAG
           imagePullPolicy: Always
           ports:
             - containerPort: 80 
